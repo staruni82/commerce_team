@@ -1,12 +1,10 @@
 # st_chatbot.py
+import streamlit as st
+
 import google.generativeai as genai 
 genai.configure(auth=st.secrets["GOOGLE_API_KEY"])
-import streamlit as st
+
 from notion_client import Client
-import os
-
-
-# API 키 읽기
 notion = Client(auth=st.secrets["NOTION_API_KEY"])
 
 page_id = "2460b8e5ab1680d38eaee92db73e0193"
