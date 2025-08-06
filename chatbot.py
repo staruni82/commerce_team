@@ -64,6 +64,10 @@ if "chat_session" not in st.session_state:
 
 st.markdown("*커머스개발팀의 주요일정, 전달사항, 특이사항을 확인할 수 있습니다.")
 
+st.markdown("반갑습니다~ 냥~~~!")
+
+st.image("커냥이_프로필.png", width=400)
+
 for content in st.session_state.chat_session.history:
     with st.chat_message("ai" if content.role == "model" else "user"):
         st.markdown(content.parts[0].text)
