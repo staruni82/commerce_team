@@ -62,7 +62,7 @@ model = load_model()
 if "chat_session" not in st.session_state:    
     st.session_state["chat_session"] = model.start_chat(history=[]) 
 
-st.markdown("안녕하세요 반갑게 인사합니다.")
+st.markdown("*커머스개발팀의 주요일정, 전달사항, 특이사항을 확인할 수 있습니다.")
 
 for content in st.session_state.chat_session.history:
     with st.chat_message("ai" if content.role == "model" else "user"):
