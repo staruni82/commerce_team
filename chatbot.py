@@ -4,30 +4,62 @@ genai.configure(api_key="AIzaSyAXEwd6uyaXFo68jgxNw1XEDGEd4xmuysM")
 import streamlit as st
 import pandas as pd
 from io import StringIO
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
+import time
 
-@st.cache  # 데이터 로딩 함수 캐싱
-def load_data(file_path):
-    """파일에서 데이터를 로드하는 함수"""
-    try:
-        df = pd.read_csv(file_path)
-        return df
-    except FileNotFoundError:
-        st.error(f"Error: File not found at {file_path}")
-        return None
-    except Exception as e:
-        st.error(f"Error loading data: {e}")
-        return None
+# @st.cache  # 데이터 로딩 함수 캐싱
+# def load_data(file_path):
+#     """파일에서 데이터를 로드하는 함수"""
+#     try:
+#         df = pd.read_csv(file_path)
+#         return df
+#     except FileNotFoundError:
+#         st.error(f"Error: File not found at {file_path}")
+#         return None
+#     except Exception as e:
+#         st.error(f"Error loading data: {e}")
+#         return None
+
+# # CSV 데이터 로드 및 프롬프트 생성
+# file_path = "커머스개발팀_전달사항.csv"  # 데이터 파일 경로
+# data = load_data(file_path)
+
+# if data is not None:
+#     csv_preview = data.head(100).to_string(index=False)
+#     additional_context = f"다음은 전달받은 커머스개발팀 관련 내용이야:\n{csv_preview}\n 을 참고해서 대화해 줘! 단 묻기전에 먼저 말하지는 마"
+# else:
+#     additional_context = "전달받은 데이터가 없어. 일반적인 대화를 해줘."
 
 
-# CSV 데이터 로드 및 프롬프트 생성
-file_path = "커머스개발팀_전달사항.csv"  # 데이터 파일 경로
-data = load_data(file_path)
+# Chrome 옵션 설정
+options = Options()
+options.add_argument("--headless")  # 창 없이 실행
+options.add_argument("--disable-gpu")
 
-if data is not None:
-    csv_preview = data.head(100).to_string(index=False)
-    additional_context = f"다음은 전달받은 커머스개발팀 관련 내용이야:\n{csv_preview}\n 을 참고해서 대화해 줘! 단 묻기전에 먼저 말하지는 마"
-else:
-    additional_context = "전달받은 데이터가 없어. 일반적인 대화를 해줘."
+driver = webdriver.Chrome(options=options)
+
+# 노션 페이지 열기
+url = "https://hecto1app.notion.site/2460b8e5ab1680d38eaee92db73e0193"
+driver.get(url)
+
+# JS 렌더링 시간 기다리기
+time.sleep(5)  # 필요에 따라 조절
+
+# HTML 파싱
+soup = BeautifulSoup(driver.page_source, "html.parser")
+text = soup.get_text(separator="\n", strip=True)
+
+driver.quit()
+
+# print("렌더링된 페이지 내용:")
+# print(text[:1000])  # 너무 길 경우 앞부분만 출력
+additional_context = text[:1000]
+
+
+
+
 
 st.title("커머스개발팀 막내")
 
