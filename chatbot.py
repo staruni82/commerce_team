@@ -10,16 +10,37 @@ notion = Client(auth=st.secrets["NOTION_API_KEY"])
 page_id = "247d15a3-f878-8006-8380-dd1b9be94fe0"
 
 def get_page_text(page_id):
-    blocks = notion.blocks.children.list(page_id=page_id)["results"]
-    text = []
-    for block in blocks:
-        block_type = block["type"]
-        if block_type in block and "text" in block[block_type]:
-            for t in block[block_type]["text"]:
-                text.append(t["plain_text"])
-    return "\n".join(text)
+    """
+    노션 페이지의 모든 텍스트를 추출하여 반환하는 함수
+    """
+    page_text = ""
+    try:
+        # 페이지 내 모든 블록 가져오기
+        blocks = notion.blocks.children.list(block_id=page_id)
+        
+        # 블록을 순회하며 텍스트 추출
+        for block in blocks["results"]:
+            block_type = block["type"]
+
+            # 텍스트를 포함하는 블록 타입 확인
+            if block_type in ["paragraph", "heading_1", "heading_2", "heading_3", "bulleted_list_item", "numbered_list_item"]:
+                rich_text = block[block_type]["rich_text"]
+
+                if rich_text:
+                    # rich_text 배열의 각 객체에서 content 추출
+                    for text_object in rich_text:
+                        page_text += text_object['text']["content"]
+                    page_text += "\n"  # 블록 간 줄바꿈 추가
+                        
+    except Exception as e:
+        print(f"Error fetching page content: {e}")
+        return ""
+    
+    return page_text
 
 additional_context = get_page_text(page_id)
+
+print(additional_context)
 
 st.title("커머스개발팀 막내")
 
