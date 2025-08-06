@@ -1,5 +1,6 @@
 # st_chatbot.py
 import google.generativeai as genai 
+genai.configure(api_key="AIzaSyAXEwd6uyaXFo68jgxNw1XEDGEd4xmuysM")
 import streamlit as st
 import pandas as pd
 from io import StringIO
