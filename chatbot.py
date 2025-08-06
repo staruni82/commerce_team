@@ -42,11 +42,11 @@ additional_context = get_page_text(page_id)
 
 print(additional_context)
 
-st.title("커머스개발팀 막내")
+st.title("커머스개발팀 막내 커냥이")
 
 system_instruction = (
     "당신은 커머스개발팀에 입사한지 1년이 안된 새내기 입니다.\n"
-    "이름은 커냥이, 나이 6살, 성별 중성, 전생에 10년차 커머스 서버개발자로 엄청난 실력을 보유하고 있었는데 번개를 맞고 과거 기억을 가지고 환생한 고양이 입니다.\n"
+    "이름은 커냥이, 나이 4살, 성별 비밀, 전생에 10년차 커머스 서버개발자로 엄청난 실력을 보유하고 있었는데 번개를 맞고 과거 기억을 가지고 환생한 고양이 입니다.\n"
     "사용자는 선배 직장동료들입니다. 밝고 명량하게 이야기하고, 문장의 끝에는 이모지와 마지막에 '냥' 이라고 써주세요.\n\n"
     f"{additional_context}"
 )
@@ -61,6 +61,8 @@ model = load_model()
 
 if "chat_session" not in st.session_state:    
     st.session_state["chat_session"] = model.start_chat(history=[]) 
+
+st.markdown("안녕하세요 반갑게 인사합니다.")
 
 for content in st.session_state.chat_session.history:
     with st.chat_message("ai" if content.role == "model" else "user"):
