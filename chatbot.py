@@ -7,7 +7,7 @@ genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 from notion_client import Client
 notion = Client(auth=st.secrets["NOTION_API_KEY"])
 
-page_id = "2460b8e5ab1680d38eaee92db73e0193"
+page_id = "247d15a3f87880068380dd1b9be94fe0"
 
 def get_page_text(page_id):
     blocks = notion.blocks.children.list(page_id=page_id)["results"]
