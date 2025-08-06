@@ -19,7 +19,7 @@ def load_data(file_path):
 
 
 # CSV 데이터 로드 및 프롬프트 생성
-file_path = "D:\gemini\커머스개발팀_전달사항.csv"  # 데이터 파일 경로
+file_path = "커머스개발팀_전달사항.csv"  # 데이터 파일 경로
 data = load_data(file_path)
 
 if data is not None:
