@@ -1,6 +1,3 @@
-beautifulsoup4
 streamlit
 google-generativeai
-pandas
-selenium
-requests
+notion_client
